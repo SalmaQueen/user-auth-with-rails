@@ -52,10 +52,23 @@ class UsersController < ApplicationController
   #     end
   #   end
   # end
+  # def create
+    
+  #   @user = User.new(user_params)
+    
+  #     if @user.save
+
+  #       auth_token = Knock::AuthToken.new payload: { sub: @user.id }
+  #       render json: {user: @user, token: auth_token} , status: :created
+       
+  #     else
+  #       render json: @user.errors.full_messages, status: :unprocessable_entity
+  #     end
+  # end
   def create
     
     @user = User.new(user_params)
-    
+    @user.password_digest = params[:password]
       if @user.save
 
         auth_token = Knock::AuthToken.new payload: { sub: @user.id }
@@ -65,7 +78,6 @@ class UsersController < ApplicationController
         render json: @user.errors.full_messages, status: :unprocessable_entity
       end
   end
-
 
   # PATCH/PUT /users/1 or /users/1.json
   # def update
